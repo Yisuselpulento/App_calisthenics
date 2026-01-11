@@ -3,9 +3,9 @@ import { View, Pressable, Text, Image, StyleSheet } from "react-native";
 import { useAuth } from "../../context/AuthContext";
 import { sendChallengeService } from "../../Services/challengeFetching";
 
-
 export default function VsButton({ opponent }) {
   const { currentUser } = useAuth();
+
   const [showSelect, setShowSelect] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [waiting, setWaiting] = useState(false);
@@ -13,7 +13,26 @@ export default function VsButton({ opponent }) {
   if (!currentUser || currentUser._id === opponent._id) return null;
 
   const handleSelect = async (type) => {
+    setErrorMsg("");
+
+    const myFav = currentUser.favoriteCombos?.[type];
+    const opponentFav = opponent.favoriteCombos?.[type];
+
+    if (!myFav || !opponentFav) {
+      const msg =
+        !myFav && !opponentFav
+          ? "Ninguno tiene un combo favorito"
+          : !myFav
+          ? "No tienes un combo favorito de este tipo"
+          : `${opponent.username} no tiene un combo favorito de este tipo`;
+
+      setErrorMsg(msg);
+      return;
+    }
+
+    setShowSelect(false);
     setWaiting(true);
+
     const res = await sendChallengeService({
       toUserId: opponent._id,
       type,
@@ -27,25 +46,44 @@ export default function VsButton({ opponent }) {
 
   return (
     <View style={styles.container}>
-      <Pressable style={styles.vsButton} onPress={() => setShowSelect(!showSelect)}>
-        <Image source={require("../../assets/images/vsimage.png")} style={styles.vsImage} />
+      <Pressable
+        style={styles.vsButton}
+        onPress={() => {
+          setShowSelect(!showSelect);
+          setErrorMsg("");
+        }}
+      >
+        <Image
+          source={require("../../assets/images/vsimage.png")}
+          style={styles.vsImage}
+        />
       </Pressable>
 
       {showSelect && !waiting && (
         <View style={styles.dropdown}>
           {["static", "dynamic"].map((t) => (
-            <Pressable key={t} style={styles.option} onPress={() => handleSelect(t)}>
-              <Text style={styles.optionText}>{t}</Text>
+            <Pressable
+              key={t}
+              style={styles.option}
+              onPress={() => handleSelect(t)}
+            >
+              <Text style={styles.optionText}>{t.toUpperCase()}</Text>
             </Pressable>
           ))}
         </View>
       )}
 
-      {waiting && <Text style={styles.wait}>Esperando respuesta...</Text>}
+      {waiting && (
+        <Text style={styles.wait}>
+          Esperando respuesta del oponente...
+        </Text>
+      )}
+
       {errorMsg && <Text style={styles.error}>{errorMsg}</Text>}
     </View>
   );
 }
+
 
 const styles = StyleSheet.create({
   container: {

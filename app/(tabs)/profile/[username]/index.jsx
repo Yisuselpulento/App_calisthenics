@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect  } from "react";
 import {
   View,
   Text,
@@ -23,16 +23,30 @@ import VsButton from "../../../../components/Buttons/VsButton";
 import ImageLightbox from "../../../../components/ImageLightbox";
 import { tailwindColors } from "../../../../helpers/tailwindColor";
 import { getRankingBorderWrapper } from "../../../../helpers/getRankingborderWrapper";
+import { useLocalSearchParams } from "expo-router";
 
 export default function Profile() {
   const router = useRouter();
-  const { currentUser, viewedProfile, toggleFollow } = useAuth();
+  const {
+  currentUser,
+  viewedProfile,
+  loadProfile,
+  profileLoading,
+  toggleFollow,
+} = useAuth();
 
   const [loadingReport, setLoadingReport] = useState(false);
   const [showMore, setShowMore] = useState(false);
   const [openImage, setOpenImage] = useState(false);
+  const { username } = useLocalSearchParams();
 
-  if (!viewedProfile) return null;
+  if (profileLoading || !viewedProfile) {
+  return (
+    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Text style={{ color: "#9CA3AF" }}>Cargando perfil...</Text>
+    </View>
+  );
+}
 
   const user = viewedProfile;
   const isCurrentUser = currentUser?._id === user._id;
@@ -47,6 +61,12 @@ export default function Profile() {
   const userTeam = user.teams?.length > 0 ? user.teams[0] : null;
   const showPesoAltura =
     (user.peso ?? 0) > 0 || (user.altura ?? 0) > 0;
+
+    useEffect(() => {
+  if (username) {
+    loadProfile(username);
+  }
+}, [username]);
 
   /* ---------------------- REPORT USER ---------------------- */
   const handleReportSend = async (reasonValue) => {
@@ -75,10 +95,9 @@ export default function Profile() {
         {!isCurrentUser && (
           <View style={styles.configButton}>
             <ButtonConfigProfile
+              userId={user._id} // 👈 importante
               isFollowing={isFollowing}
-              onUnfollowConfirmed={() =>
-                toggleFollow({ _id: user._id })
-              }
+              onUnfollowConfirmed={() => toggleFollow({ _id: user._id })}
               onReportSend={handleReportSend}
               loadingReport={loadingReport}
             />
@@ -269,7 +288,7 @@ const styles = StyleSheet.create({
   configButton: {
     position: "absolute",
     top: 6,
-    left: 6,
+    right: 6,
     zIndex: 20,
   },
 

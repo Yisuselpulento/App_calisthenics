@@ -120,7 +120,7 @@ export default function Login() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#020617",
+    backgroundColor: "#000000",
     justifyContent: "center",
     padding: 16,
   },

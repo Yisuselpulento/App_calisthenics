@@ -228,7 +228,6 @@ const styles = StyleSheet.create({
   },
 
   list: {
-    backgroundColor: "#111827",
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#1F2937",

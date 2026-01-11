@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     minWidth: 200,
     padding: 4,
     position: "relative",
-    zIndex: 10,
+    zIndex: 999,
   },
   input: {
     backgroundColor: "rgba(255,255,255,0.1)",
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 40,
     width: "100%",
-    backgroundColor: "rgba(0,0,0,0.7)",
+    backgroundColor: "#1C1917",
     borderRadius: 8,
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.2)",

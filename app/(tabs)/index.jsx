@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { View, Text, FlatList, StyleSheet } from "react-native";
 
 import { getFeedEventsService } from "../../Services/feedFetching";
@@ -8,6 +8,7 @@ import Spinner from "../../components/Spinner/Spinner";
 export default function Home() {
   const [feed, setFeed] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [activeVideoId, setActiveVideoId] = useState(null);
 
   useEffect(() => {
     const loadFeed = async () => {
@@ -22,6 +23,12 @@ export default function Home() {
 
     loadFeed();
   }, []);
+
+  const onViewableItemsChanged = useRef(({ viewableItems }) => {
+    if (viewableItems.length > 0) {
+      setActiveVideoId(viewableItems[0].item._id);
+    }
+  });
 
   if (loading) {
     return (
@@ -45,8 +52,24 @@ export default function Home() {
     <FlatList
       data={feed}
       keyExtractor={(item) => item._id}
-      renderItem={({ item }) => <PostCard activity={item} />}
+      renderItem={({ item }) => (
+        <PostCard
+          activity={item}
+          activeVideoId={activeVideoId}
+        />
+      )}
+      onViewableItemsChanged={onViewableItemsChanged.current}
+      viewabilityConfig={{ itemVisiblePercentThreshold: 70 }}
+
+      /* 🔥 ESPACIADO */
       contentContainerStyle={styles.list}
+      ItemSeparatorComponent={() => <View style={{ height: 12 }} />}
+
+      /* PERF */
+      removeClippedSubviews
+      initialNumToRender={3}
+      maxToRenderPerBatch={3}
+      windowSize={5}
     />
   );
 }
@@ -58,8 +81,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   list: {
-    padding: 12,
-    gap: 12,
+    paddingHorizontal: 12, // ← separación de los bordes
+    paddingVertical: 12,
   },
   emptyText: {
     color: "#9CA3AF",

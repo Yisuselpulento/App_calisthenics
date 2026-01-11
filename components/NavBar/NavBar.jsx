@@ -25,20 +25,20 @@ const NavBar = () => {
       <View style={styles.actions}>
         <View style={styles.relative}>
           <Pressable
-            onPress={() => setShowDropdown((prev) => !prev)}
-            style={({ pressed }) => [
-              styles.iconButton,
-              showDropdown && styles.activeButton,
-              pressed && { opacity: 0.7 },
-            ]}
-          >
-            <FontAwesome
-              name="bell"
-              size={22}
-              color={showDropdown ? "#fff" : "#D1D5DB"}
-            />
-            <NotificationBadge count={currentUser?.notificationsCount} />
-          </Pressable>
+          onPress={() => setShowDropdown((prev) => !prev)}
+          style={({ pressed }) => [
+            styles.iconButton,
+            showDropdown && styles.activeButton,
+            pressed && { opacity: 0.7 },
+          ]}
+        >
+          <FontAwesome
+            name="bell"
+            size={22}
+            color={showDropdown ? "#fff" : "#D1D5DB"}
+          />
+          <NotificationBadge count={currentUser?.notificationsCount} />
+        </Pressable>
 
           {showDropdown && (
             <NotificationsDropdown
@@ -60,12 +60,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: "#111827",
+    paddingVertical: 8, // ahora usamos padding vertical fijo
   },
 
   searchWrapper: {
-    flex: 1, // 👈 CLAVE
+    flex: 1,
     marginRight: 12,
   },
 
@@ -82,7 +81,7 @@ const styles = StyleSheet.create({
   iconButton: {
     padding: 8,
     borderRadius: 9999,
-    backgroundColor: "#1F2937",
+    backgroundColor: "#1C1917",
     justifyContent: "center",
     alignItems: "center",
   },

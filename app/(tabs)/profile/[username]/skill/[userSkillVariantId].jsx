@@ -167,7 +167,7 @@ export default function SkillDetail() {
       <Text style={styles.text}>Static AU: {variant.staticAU}</Text>
       <Text style={styles.text}>Dynamic AU: {variant.dynamicAU}</Text>
 
-      {variant.video && <VideoPlayer src={variant.video.url} />}
+      {variant.video && <VideoPlayer src={variant.video.url} shouldPlay />}
 
       {/* MODALS */}
       <DeleteSkillVariantModal

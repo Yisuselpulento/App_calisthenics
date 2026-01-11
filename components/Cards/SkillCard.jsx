@@ -98,7 +98,7 @@ export default function SkillCard({ skill, view, ownerUsername }) {
           {type}
         </Text>
 
-        {video && <VideoPlayer src={video.url} />}
+        {video && <VideoPlayer src={video.url}  shouldPlay />}
       </Pressable>
 
       <ReportModal

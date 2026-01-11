@@ -177,6 +177,7 @@ export default function EditSkill() {
           <VideoPlayer
             src={video?.uri || variant?.video?.url}
             autoPlay={!!video}
+            shouldPlay
           />
         </View>
 

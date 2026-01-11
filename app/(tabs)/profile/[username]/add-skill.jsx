@@ -197,6 +197,36 @@ export default function AddSkill() {
 
               <VideoPlayer src={video?.uri} />
 
+              {/* Dedos */}
+<View style={styles.section}>
+  <Text style={styles.label}>Dedos usados</Text>
+
+  <View style={styles.fingersRow}>
+    {[1, 2, 5].map((f) => {
+      const active = fingersUsed === f;
+      return (
+        <Pressable
+          key={f}
+          onPress={() => setFingersUsed(f)}
+          style={[
+            styles.fingerButton,
+            active && styles.fingerButtonActive,
+          ]}
+        >
+          <Text
+            style={[
+              styles.fingerText,
+              active && styles.fingerTextActive,
+            ]}
+          >
+            {f} dedo{f > 1 ? "s" : ""}
+          </Text>
+        </Pressable>
+      );
+    })}
+  </View>
+</View>
+
               <SubmitButton
                 loading={loadingSubmit}
                 text="Agregar Skill"
@@ -274,4 +304,36 @@ const styles = StyleSheet.create({
     color: "white",
     textAlign: "center",
   },
+  label: {
+  color: "#9CA3AF",
+  fontSize: 14,
+},
+
+fingersRow: {
+  flexDirection: "row",
+  gap: 10,
+},
+
+fingerButton: {
+  paddingVertical: 8,
+  paddingHorizontal: 14,
+  borderRadius: 999,
+  borderWidth: 1,
+  borderColor: "#374151",
+},
+
+fingerButtonActive: {
+  backgroundColor: "#2563EB",
+  borderColor: "#2563EB",
+},
+
+fingerText: {
+  color: "#9CA3AF",
+  fontSize: 14,
+},
+
+fingerTextActive: {
+  color: "white",
+  fontWeight: "600",
+},
 });

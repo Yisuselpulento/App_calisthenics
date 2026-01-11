@@ -5,9 +5,9 @@
 
 import { Platform } from 'react-native';
 
-const PRIMARY = "#3B82F6";     // 🔵 tu primary (blue-500 como en la web)
-const BG_DARK = "#0c0a09";     // stone-950
-const BG_SOFT = "#111827";    // stone-900-ish
+const PRIMARY = "#1C1917";     //  tu primary (blue-500 como en la web)
+const BG_DARK = "#1C1917";     // stone-950
+const BG_SOFT = "#1C1917";    // stone-900-ish
 const TEXT_MAIN = "#FFFFFF";
 const TEXT_MUTED = "#9CA3AF";
 

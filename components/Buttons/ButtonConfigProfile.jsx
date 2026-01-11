@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, Pressable, Text, StyleSheet } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import ConfirmUnfollowModal from "../Modals/ConfirmUnfollowModal";
@@ -6,7 +6,9 @@ import ReportModal from "../Modals/ReportModal";
 import { userReportReasons } from "../../helpers/reportsOptions";
 
 
+
 export default function ButtonConfigProfile({
+  userId, // 👈 id del usuario actual que estamos viendo
   isFollowing,
   onUnfollowConfirmed,
   onReportSend,
@@ -16,9 +18,16 @@ export default function ButtonConfigProfile({
   const [showUnfollowModal, setShowUnfollowModal] = useState(false);
   const [showReportModal, setShowReportModal] = useState(false);
 
+  // 👈 Resetear modales al cambiar de usuario
+  useEffect(() => {
+    setOpenMenu(false);
+    setShowUnfollowModal(false);
+    setShowReportModal(false);
+  }, [userId]);
+
   return (
     <View>
-      <Pressable onPress={() => setOpenMenu(true)}>
+      <Pressable onPress={() => setOpenMenu((prev) => !prev)}>
         <Feather name="more-vertical" size={20} color="#fff" />
       </Pressable>
 
@@ -49,7 +58,7 @@ export default function ButtonConfigProfile({
       )}
 
       <ConfirmUnfollowModal
-        isOpen={showUnfollowModal}
+        visible={showUnfollowModal}
         onCancel={() => setShowUnfollowModal(false)}
         onConfirm={() => {
           onUnfollowConfirmed();

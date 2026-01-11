@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "calistenia_app",
-    "slug": "calistenia_app",
+    "slug": "calisthenicsfrontend",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -47,7 +47,7 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "9f46b63b-621f-4887-9d65-57e1ba5d6605"
+        "projectId": "3e704fd5-bf0b-48e3-b7b9-4fad10d007d7"
       }
     },
     "owner": "monssterdc",
@@ -55,7 +55,9 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/9f46b63b-621f-4887-9d65-57e1ba5d6605"
+      "enabled": true,
+      "url": "https://u.expo.dev/3e704fd5-bf0b-48e3-b7b9-4fad10d007d7",
+      "channel": "production"
     }
   }
 }

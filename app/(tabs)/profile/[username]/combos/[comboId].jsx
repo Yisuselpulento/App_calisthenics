@@ -93,7 +93,7 @@ export default function ComboDetails() {
       </View>
 
       {combo.video && (
-        <VideoPlayer src={combo.video.url} />
+        <VideoPlayer src={combo.video.url} shouldPlay />
       )}
 
       <Text style={styles.subtitle}>Skills del Combo</Text>
@@ -104,7 +104,7 @@ export default function ComboDetails() {
             {el.skillName} – {el.variantName}
           </Text>
 
-          {el.video && <VideoPlayer src={el.video.url} />}
+          {el.video && <VideoPlayer src={el.video.url} shouldPlay />}
 
           <View style={styles.row}>
             <View>
@@ -135,7 +135,6 @@ export default function ComboDetails() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0c0a09",
     padding: 10,
   },
   center: {

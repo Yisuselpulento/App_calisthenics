@@ -2,9 +2,12 @@ import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import { useRouter } from "expo-router";
 import VideoPlayer from "../VideoPlayer";
 
-export default function PostCard({ activity }) {
+export default function PostCard({ activity, activeVideoId }) {
   const router = useRouter();
   const { user, type, message, createdAt, metadata } = activity;
+
+  // 👉 SOLO este post puede reproducir video
+  const isActive = activity._id === activeVideoId;
 
   const formattedDate = new Date(createdAt).toLocaleString("es-CL", {
     day: "2-digit",
@@ -60,9 +63,12 @@ export default function PostCard({ activity }) {
       {/* MENSAJE */}
       <Text style={styles.message}>{getDescription()}</Text>
 
-      {/* VIDEO */}
+      {/* VIDEO (solo si está activo) */}
       {metadata?.videoUrl && (
-        <VideoPlayer src={metadata.videoUrl} />
+        <VideoPlayer
+          src={metadata.videoUrl}
+          shouldPlay={isActive}
+        />
       )}
     </Pressable>
   );
@@ -70,7 +76,7 @@ export default function PostCard({ activity }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "#1C1917",
     borderRadius: 16,
     padding: 12,
     borderWidth: 1,
@@ -103,5 +109,6 @@ const styles = StyleSheet.create({
   message: {
     color: "#E5E7EB",
     fontSize: 13,
+    marginBottom: 6,
   },
 });

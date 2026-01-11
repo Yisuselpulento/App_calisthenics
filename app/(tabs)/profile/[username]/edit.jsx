@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,9 @@ import {
   Pressable,
   ScrollView,
   ActivityIndicator,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
@@ -16,6 +19,7 @@ import { updateProfileService } from "../../../../Services/ProfileFetching";
 import SubmitButton from "../../../../components/Buttons/SubmitButton";
 import { showToast } from "../../../../helpers/showToast";
 import VideoPlayer from "../../../../components/VideoPlayer";
+
 const MAX_VIDEO_SIZE_MB = 100;
 const MAX_VIDEO_SIZE_BYTES = MAX_VIDEO_SIZE_MB * 1024 * 1024;
 
@@ -106,69 +110,177 @@ export default function EditProfile() {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 16 }}>
-        Editar perfil
-      </Text>
+    <KeyboardAvoidingView
+      style={{ flex: 1, backgroundColor: "#1C1917" }}
+      behavior={Platform.OS === "ios" ? "padding" : undefined}
+      keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
+    >
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+      >
+        {/* TÍTULO */}
+        <Text style={styles.title}>Editar perfil</Text>
 
-      {/* AVATAR */}
-      <Pressable onPress={pickAvatar}>
-        <Text>Avatar</Text>
-        {formData.avatar && (
-          <Image
-            source={{ uri: formData.avatar.uri || formData.avatar }}
-            style={{ width: 80, height: 80, borderRadius: 40, marginTop: 8 }}
+        {/* ACCIONES */}
+        <View style={styles.actionsRow}>
+          <Pressable
+            onPress={() =>
+              router.push(`/profile/${currentUser.username}/add-skill`)
+            }
+            style={[styles.actionBtn, styles.skillBtn]}
+          >
+            <Text style={styles.actionText}>+ Skill</Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() =>
+              router.push(`/profile/${currentUser.username}/combos/add`)
+            }
+            style={[styles.actionBtn, styles.comboBtn]}
+          >
+            <Text style={styles.actionText}>+ Combo</Text>
+          </Pressable>
+        </View>
+
+        {/* AVATAR */}
+        <Pressable onPress={pickAvatar} style={styles.avatarPressable}>
+          <Text style={styles.label}>Avatar</Text>
+          {formData.avatar && (
+            <Image
+              source={{ uri: formData.avatar.uri || formData.avatar }}
+              style={styles.avatar}
+            />
+          )}
+        </Pressable>
+
+        {/* VIDEO */}
+        <Pressable onPress={pickVideo} style={{ marginTop: 16 }}>
+          <Text style={styles.label}>Video de perfil</Text>
+          {formData.videoProfile && (
+            <VideoPlayer
+              src={formData.videoProfile.uri || formData.videoProfile}
+              shouldPlay
+            />
+          )}
+        </Pressable>
+
+        {/* ALTURA / PESO */}
+        <View style={styles.row}>
+          <TextInput
+            placeholder="Altura (m)"
+            placeholderTextColor="#9CA3AF"
+            value={formData.altura}
+            onChangeText={(v) => setFormData((p) => ({ ...p, altura: v }))}
+            keyboardType="decimal-pad"
+            style={styles.input}
           />
-        )}
-      </Pressable>
-
-      {/* VIDEO */}
-      <Pressable onPress={pickVideo} style={{ marginTop: 16 }}>
-        <Text>Video de perfil</Text>
-        {formData.videoProfile && (
-          <VideoPlayer
-            src={formData.videoProfile.uri || formData.videoProfile}
+          <TextInput
+            placeholder="Peso (kg)"
+            placeholderTextColor="#9CA3AF"
+            value={formData.peso}
+            onChangeText={(v) => setFormData((p) => ({ ...p, peso: v }))}
+            keyboardType="decimal-pad"
+            style={styles.input}
           />
-        )}
-      </Pressable>
+        </View>
 
-      {/* ALTURA / PESO */}
-      <View style={{ flexDirection: "row", gap: 8, marginTop: 16 }}>
+        {/* COUNTRY */}
         <TextInput
-          placeholder="Altura (m)"
-          value={formData.altura}
-          onChangeText={(v) => setFormData((p) => ({ ...p, altura: v }))}
-          keyboardType="decimal-pad"
-          style={styles.input}
+          placeholder="País"
+          placeholderTextColor="#9CA3AF"
+          value={formData.country}
+          onChangeText={(v) => setFormData((p) => ({ ...p, country: v }))}
+          style={[styles.input, { marginTop: 12 }]}
         />
-        <TextInput
-          placeholder="Peso (kg)"
-          value={formData.peso}
-          onChangeText={(v) => setFormData((p) => ({ ...p, peso: v }))}
-          keyboardType="decimal-pad"
-          style={styles.input}
+
+        {/* ADVANCED */}
+        <Pressable
+          onPress={() =>
+            router.push(`/profile/${currentUser.username}/edit-advanced`)
+          }
+          style={styles.advancedLink}
+        >
+          <Text style={styles.advancedText}>
+            Editar opciones avanzadas →
+          </Text>
+        </Pressable>
+
+        {/* GUARDAR */}
+        <SubmitButton
+          loading={loading}
+          text="Guardar cambios"
+          onPress={handleSubmit}
+          style={{ marginTop: 20 }}
         />
-      </View>
-
-      {/* COUNTRY */}
-      <TextInput
-        placeholder="País"
-        value={formData.country}
-        onChangeText={(v) => setFormData((p) => ({ ...p, country: v }))}
-        style={[styles.input, { marginTop: 12 }]}
-      />
-
-      <SubmitButton loading={loading} text="Guardar cambios" onPress={handleSubmit} />
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+    paddingBottom: 40,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 12,
+  },
+  actionsRow: {
+    flexDirection: "row",
+    gap: 10,
+    marginBottom: 20,
+  },
+  actionBtn: {
+    flex: 1,
+    paddingVertical: 8,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  skillBtn: {
+    backgroundColor: "#16A34A", // green-600
+  },
+  comboBtn: {
+    backgroundColor: "#2563EB", // blue-600
+  },
+  actionText: {
+    color: "#fff",
+    fontWeight: "600",
+  },
+  avatarPressable: {
+    alignItems: "center",
+  },
+  label: {
+    color: "#fff",
+    fontWeight: "600",
+    marginBottom: 6,
+  },
+  avatar: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    marginTop: 8,
+  },
+  row: {
+    flexDirection: "row",
+    gap: 8,
+    marginTop: 16,
+  },
   input: {
     flex: 1,
     padding: 12,
-    backgroundColor: "#1c1917",
+    backgroundColor: "#374151",
     borderRadius: 8,
-    color: "white",
+    color: "#fff",
   },
-};
+  advancedLink: {
+    marginTop: 14,
+  },
+  advancedText: {
+    color: "#60A5FA",
+    fontSize: 14,
+  },
+});

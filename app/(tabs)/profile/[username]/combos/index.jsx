@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 12,
-    backgroundColor: "#020617",
   },
 
   header: {

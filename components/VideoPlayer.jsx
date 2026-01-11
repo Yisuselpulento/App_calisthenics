@@ -1,7 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { Video } from "expo-av";
 
-export default function VideoPlayer({ src }) {
+export default function VideoPlayer({ src, shouldPlay = false  }) {
   if (!src) return null;
 
   return (
@@ -9,11 +9,11 @@ export default function VideoPlayer({ src }) {
       <Video
         source={{ uri: src }}
         style={styles.video}
-        useNativeControls
         resizeMode="contain"
-        shouldPlay
+        shouldPlay={shouldPlay}
         isLooping
-        isMuted   
+        isMuted
+        useNativeControls={false}
       />
     </View>
   );
