@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     paddingHorizontal: 14,
     borderRadius: 8,
+    alignSelf: "flex-start",
+    marginTop: 8,
   },
   disabled: {
     opacity: 0.6,

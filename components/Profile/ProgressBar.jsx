@@ -2,7 +2,7 @@ import { View, Text, StyleSheet } from "react-native";
 
 export default function ProgressBar({
   level = 0,
-  maxLevel = 18000,
+  maxLevel = 25000,
   label,
   showPercent = true,
 }) {
@@ -10,7 +10,7 @@ export default function ProgressBar({
   const percent = (progress / maxLevel) * 100;
 
   const colors =
-    maxLevel === 9000
+    maxLevel === 12500
       ? ["#d1d5db", "#3b82f6", "#a855f7", "#facc15"]
       : ["#ef4444", "#f97316", "#22c55e", "#3b82f6", "#a855f7", "#facc15"];
 

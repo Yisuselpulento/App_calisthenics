@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    color: "#000",
+    color: "#fff", // 👈 blanco
     fontSize: 12,
     fontWeight: "600",
   },

@@ -1,0 +1,27 @@
+const countries = [
+  { code: "CL", name: "Chile" },
+  { code: "AR", name: "Argentina" },
+  { code: "PE", name: "Perú" },
+  { code: "BO", name: "Bolivia" },
+  { code: "UY", name: "Uruguay" },
+  { code: "PY", name: "Paraguay" },
+  { code: "BR", name: "Brasil" },
+  { code: "CO", name: "Colombia" },
+  { code: "VE", name: "Venezuela" },
+  { code: "EC", name: "Ecuador" },
+  { code: "MX", name: "México" },
+  { code: "US", name: "Estados Unidos" },
+  { code: "CA", name: "Canadá" },
+  { code: "ES", name: "España" },
+  { code: "FR", name: "Francia" },
+  { code: "DE", name: "Alemania" },
+  { code: "IT", name: "Italia" },
+  { code: "GB", name: "Reino Unido" },
+  { code: "PT", name: "Portugal" },
+  { code: "JP", name: "Japón" },
+  { code: "KR", name: "Corea del Sur" },
+  { code: "CN", name: "China" },
+  { code: "AU", name: "Australia" },
+];
+
+export default countries;

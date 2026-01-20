@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
   },
   tabs: {
     flexDirection: "row",
+    alignSelf: "flex-start",
     backgroundColor: "#292524",
     borderRadius: 12,
     overflow: "hidden",

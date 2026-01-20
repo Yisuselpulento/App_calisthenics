@@ -90,7 +90,7 @@ export default function ProfileSkills() {
       />
 
       {userVariants.length > 0 ? (
-        <View style={cardView ? styles.gridCompact : styles.grid}>
+        <View style={styles.grid}>
           {userVariants.map((variant) => (
             <SkillCard
               key={variant.userSkillVariantId}
@@ -156,6 +156,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,
+    justifyContent: "space-between",
   },
   gridCompact: {
     flexDirection: "row",

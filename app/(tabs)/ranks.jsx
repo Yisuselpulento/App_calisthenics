@@ -9,14 +9,22 @@ import {
 } from "react-native";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
+
 import { getRankedLeaderboardService } from "../../Services/userFetching";
 import { getRankingColor } from "../../helpers/getRankingColor";
+import RankedSearchButton from "../../components/Buttons/RankedSearchButton";
+import Pagination from "../../components/Pagination";
+
+const PAGE_LIMIT = 10;
 
 export default function Ranks() {
   const [users, setUsers] = useState([]);
   const [me, setMe] = useState(null);
   const [loading, setLoading] = useState(true);
+
   const [type, setType] = useState("static");
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const router = useRouter();
 
@@ -25,21 +33,35 @@ export default function Ranks() {
       ? Math.round(user.ranking[type].elo)
       : 0;
 
+  // 🔄 Cargar leaderboard
   useEffect(() => {
     const loadLeaderboard = async () => {
       setLoading(true);
-      const res = await getRankedLeaderboardService(type);
+
+      const res = await getRankedLeaderboardService({
+        type,
+        page,
+        limit: PAGE_LIMIT,
+      });
 
       if (res.success) {
         setUsers(res.data.leaderboard || []);
         setMe(res.data.me || null);
+        setTotalPages(res.data.pagination?.totalPages || 1);
       }
 
       setLoading(false);
     };
 
     loadLeaderboard();
-  }, [type]);
+  }, [type, page]);
+
+  // 🔁 Cambiar tipo
+  const handleTypeChange = (newType) => {
+    if (newType === type) return;
+    setType(newType);
+    setPage(1);
+  };
 
   if (loading) {
     return (
@@ -54,17 +76,16 @@ export default function Ranks() {
       {/* HEADER */}
       <View style={styles.header}>
         <Text style={styles.title}>🏆 Ranking Ranked</Text>
-
-        {/* ❌ AÚN NO SE USA */}
-        {/* <RankedSearchButton /> */}
+        <RankedSearchButton />
       </View>
+
 
       {/* BOTONES DE TIPO */}
       <View style={styles.typeButtons}>
         {["static", "dynamic"].map((t) => (
           <Pressable
             key={t}
-            onPress={() => setType(t)}
+            onPress={() => handleTypeChange(t)}
             style={[
               styles.typeButton,
               type === t && styles.typeButtonActive,
@@ -84,60 +105,76 @@ export default function Ranks() {
 
       {/* LEADERBOARD */}
       <View style={styles.list}>
-        {users.map((user, i) => (
-          <Pressable
-            key={user._id}
-            style={styles.row}
-            onPress={() => router.push(`/profile/${user.username}`)}
-          >
-            <View style={styles.left}>
-              <Text
-                style={[
-                  styles.rank,
-                  i === 0 && styles.gold,
-                  i === 1 && styles.silver,
-                  i === 2 && styles.bronze,
-                ]}
-              >
-                {i + 1}
-              </Text>
+        {users.map((user, i) => {
+          const globalRank = i + 1 + (page - 1) * PAGE_LIMIT;
 
-              <Image
-                source={{ uri: user.avatar?.url }}
-                style={styles.avatar}
-              />
+          return (
+            <Pressable
+              key={user._id}
+              style={styles.row}
+              onPress={() => router.push(`/profile/${user.username}`)}
+            >
+              <View style={styles.left}>
+                <Text
+                  style={[
+                    styles.rank,
+                    globalRank === 1 && styles.gold,
+                    globalRank === 2 && styles.silver,
+                    globalRank === 3 && styles.bronze,
+                  ]}
+                >
+                  {globalRank}
+                </Text>
 
-              <View>
-                <Text style={styles.name}>{user.fullName}</Text>
-                <Text style={styles.username}>@{user.username}</Text>
-              </View>
-            </View>
-
-            <View style={styles.right}>
-              <View style={styles.eloRow}>
-                <FontAwesome5
-                  name="trophy"
-                  size={16}
-                  color={getRankingColor(
-                    user.ranking?.[type]?.tier,
-                    true
-                  )}
+                <Image
+                  source={{ uri: user.avatar?.url }}
+                  style={styles.avatar}
                 />
-                <Text style={styles.elo}>{safeElo(user)}</Text>
+
+                <View>
+                  <Text style={styles.name}>{user.fullName}</Text>
+                  <Text style={styles.username}>@{user.username}</Text>
+                </View>
               </View>
 
-              <Text
-                style={[
-                  styles.tier,
-                  { color: getRankingColor(user.ranking?.[type]?.tier, true) },
-                ]}
-              >
-                {user.ranking?.[type]?.tier || "Bronze"}
-              </Text>
-            </View>
-          </Pressable>
-        ))}
+              <View style={styles.right}>
+                <View style={styles.eloRow}>
+                  <FontAwesome5
+                    name="trophy"
+                    size={16}
+                    color={getRankingColor(
+                      user.ranking?.[type]?.tier,
+                      true
+                    )}
+                  />
+                  <Text style={styles.elo}>{safeElo(user)}</Text>
+                </View>
+
+                <Text
+                  style={[
+                    styles.tier,
+                    {
+                      color: getRankingColor(
+                        user.ranking?.[type]?.tier,
+                        true
+                      ),
+                    },
+                  ]}
+                >
+                  {user.ranking?.[type]?.tier || "Bronze"}
+                </Text>
+              </View>
+            </Pressable>
+          );
+        })}
       </View>
+
+      {/* PAGINACIÓN */}
+      <Pagination
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+      />
 
       {/* MI POSICIÓN */}
       {me && (
@@ -170,9 +207,7 @@ export default function Ranks() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 12,
-  },
+  container: { padding: 12 },
 
   center: {
     flex: 1,
@@ -192,14 +227,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
 
-  muted: {
-    color: "#9CA3AF",
-  },
-
-  mutedSmall: {
-    color: "#9CA3AF",
-    fontSize: 12,
-  },
+  muted: { color: "#9CA3AF" },
+  mutedSmall: { color: "#9CA3AF", fontSize: 12 },
 
   typeButtons: {
     flexDirection: "row",
@@ -214,23 +243,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#374151",
   },
 
-  typeButtonActive: {
-    backgroundColor: "#FACC15",
-  },
+  typeButtonActive: { backgroundColor: "#FACC15" },
 
-  typeText: {
-    color: "#D1D5DB",
-  },
-
-  typeTextActive: {
-    color: "#000",
-    fontWeight: "600",
-  },
+  typeText: { color: "#D1D5DB" },
+  typeTextActive: { color: "#000", fontWeight: "600" },
 
   list: {
     borderRadius: 12,
     borderWidth: 1,
     borderColor: "#1F2937",
+    backgroundColor: "#1C1917",
   },
 
   row: {
@@ -247,12 +269,10 @@ const styles = StyleSheet.create({
     gap: 10,
   },
 
-  right: {
-    alignItems: "flex-end",
-  },
+  right: { alignItems: "flex-end" },
 
   rank: {
-    width: 24,
+    width: 28,
     textAlign: "center",
     color: "#6B7280",
     fontWeight: "700",
@@ -262,21 +282,10 @@ const styles = StyleSheet.create({
   silver: { color: "#E5E7EB" },
   bronze: { color: "#D97706" },
 
-  avatar: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-  },
+  avatar: { width: 40, height: 40, borderRadius: 20 },
 
-  name: {
-    color: "#fff",
-    fontWeight: "600",
-  },
-
-  username: {
-    color: "#9CA3AF",
-    fontSize: 12,
-  },
+  name: { color: "#fff", fontWeight: "600" },
+  username: { color: "#9CA3AF", fontSize: 12 },
 
   eloRow: {
     flexDirection: "row",
@@ -284,20 +293,14 @@ const styles = StyleSheet.create({
     gap: 6,
   },
 
-  elo: {
-    color: "#fff",
-    fontWeight: "600",
-  },
-
-  tier: {
-    fontSize: 12,
-  },
+  elo: { color: "#fff", fontWeight: "600" },
+  tier: { fontSize: 12 },
 
   meCard: {
     marginTop: 16,
     padding: 12,
     borderRadius: 12,
-    backgroundColor: "#1F2937",
+    backgroundColor: "#1C1917",
     borderWidth: 1,
     borderColor: "#FACC15",
   },
@@ -314,14 +317,7 @@ const styles = StyleSheet.create({
     marginRight: 8,
   },
 
-  meAvatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-  },
+  meAvatar: { width: 32, height: 32, borderRadius: 16 },
 
-  meElo: {
-    color: "#FACC15",
-    fontWeight: "700",
-  },
+  meElo: { color: "#FACC15", fontWeight: "700" },
 });

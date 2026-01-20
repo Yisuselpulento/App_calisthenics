@@ -14,7 +14,7 @@ import VideoPlayer from "../VideoPlayer";
 import { createReportService } from "../../Services/reportsFetching";
 import { skillReportReasons } from "../../helpers/reportsOptions";
 
-export default function SkillCard({ skill, view, ownerUsername }) {
+export default function SkillCard({ skill, view = "card", ownerUsername }) {
   const router = useRouter();
   const { currentUser } = useAuth();
 
@@ -52,6 +52,8 @@ export default function SkillCard({ skill, view, ownerUsername }) {
     setShowReport(false);
   };
 
+  const isDetail = view === "detail";
+
   return (
     <>
       <Pressable
@@ -61,8 +63,9 @@ export default function SkillCard({ skill, view, ownerUsername }) {
           )
         }
         style={[
-          styles.card,
-          view === "detail" && styles.detail,
+          styles.cardBase,
+          + isDetail ? styles.detailView : styles.cardView,
+        + isDetail ? styles.fullWidth : styles.halfWidth,
         ]}
       >
         {!isOwner && (
@@ -74,12 +77,16 @@ export default function SkillCard({ skill, view, ownerUsername }) {
           </Pressable>
         )}
 
-        <Text style={styles.title}>{name || variantKey}</Text>
+        <Text style={[styles.title, isDetail && styles.titleDetail]}>
+          {name || variantKey}
+        </Text>
+
         <Text style={styles.sub}>Skill: {skillName}</Text>
 
         <Text style={styles.stats}>
           Static AU:{" "}
-          <Text style={styles.static}>{staticAU ?? 0}</Text> | Dynamic AU:{" "}
+          <Text style={styles.static}>{staticAU ?? 0}</Text>{" "}
+          | Dynamic AU:{" "}
           <Text style={styles.dynamic}>{dynamicAU ?? 0}</Text>
         </Text>
 
@@ -95,10 +102,14 @@ export default function SkillCard({ skill, view, ownerUsername }) {
               : styles.otherBg,
           ]}
         >
-          {type}
+          {type || "unknown"}
         </Text>
 
-        {video && <VideoPlayer src={video.url}  shouldPlay />}
+        {video && (
+          <View style={isDetail && styles.videoDetail}>
+            <VideoPlayer src={video.url} shouldPlay />
+          </View>
+        )}
       </Pressable>
 
       <ReportModal
@@ -113,18 +124,24 @@ export default function SkillCard({ skill, view, ownerUsername }) {
 }
 
 const styles = StyleSheet.create({
-  card: {
+  cardBase: {
     position: "relative",
     backgroundColor: "rgba(255,255,255,0.05)",
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.1)",
     borderRadius: 16,
-    padding: 14,
   },
 
-  /* Vista detail */
-  detail: {
+  /* CARD (lista) */
+  cardView: {
+    padding: 12,
     gap: 6,
+  },
+
+  /* DETAIL */
+  detailView: {
+    padding: 14,
+    gap: 10,
   },
 
   report: {
@@ -141,7 +158,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "600",
     color: "#fff",
-    marginBottom: 2,
+  },
+
+  titleDetail: {
+    fontSize: 17,
   },
 
   sub: {
@@ -152,7 +172,6 @@ const styles = StyleSheet.create({
   stats: {
     fontSize: 13,
     color: "#d1d5db",
-    marginTop: 4,
   },
 
   static: {
@@ -190,4 +209,15 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(234,179,8,0.4)",
     color: "#fde047",
   },
+
+  videoDetail: {
+    marginTop: 8,
+  },
+  halfWidth: {
+  width: "48%", // grid de 2 columnas (card view)
+},
+
+fullWidth: {
+  width: "100%", // vista detail (una por fila)
+},
 });

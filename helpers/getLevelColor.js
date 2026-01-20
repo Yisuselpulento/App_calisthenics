@@ -9,8 +9,13 @@ export const getLevelColor = (user) => {
   if (!user || !user.stats) return colors[0];
 
   const mainAura = user.stats.mainAura || 0;
+  const MAX_AURA = 25000;
+  const STEP = MAX_AURA / colors.length;
 
-  const index = Math.floor(mainAura / 4500) % colors.length;
+  const index = Math.min(
+    colors.length - 1,
+    Math.floor(mainAura / STEP)
+  );
 
   return colors[index];
 };

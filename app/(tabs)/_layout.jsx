@@ -25,6 +25,7 @@ export default function TabsLayout() {
       {/* 🎥 Video de fondo */}
       {showVideo && (
         <View style={StyleSheet.absoluteFill}>
+          
           <Video
             source={{ uri: viewedProfile.videoProfile.url }}
             style={StyleSheet.absoluteFill}
@@ -53,11 +54,10 @@ export default function TabsLayout() {
           ]}
         >
           <Slot />
-        </View>
+        </View> 
       </SafeAreaView>
-
-      {/* 🔻 Bottom Navbar fijo */}
       <BottomNavbar />
+      
     </View>
   );
 }
@@ -65,7 +65,8 @@ export default function TabsLayout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#0C0A09",
+    backgroundColor: "#0c0a09",
+
   },
   safe: {
     flex: 1,

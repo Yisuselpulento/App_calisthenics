@@ -24,6 +24,7 @@ import ImageLightbox from "../../../../components/ImageLightbox";
 import { tailwindColors } from "../../../../helpers/tailwindColor";
 import { getRankingBorderWrapper } from "../../../../helpers/getRankingborderWrapper";
 import { useLocalSearchParams } from "expo-router";
+import defaultAvatar from "../../../../assets/images/default-avatar.jpg";
 
 export default function Profile() {
   const router = useRouter();
@@ -54,9 +55,8 @@ export default function Profile() {
     (f) => f._id === user._id
   );
 
-  const colorKey = getLevelColor(user);
-  const bgColor = tailwindColors[colorKey] || "#eab308";
-  const borderColor = bgColor + "CC";
+  const bgColor = getLevelColor(user);
+const borderColor = bgColor + "CC";
 
   const userTeam = user.teams?.length > 0 ? user.teams[0] : null;
   const showPesoAltura =
@@ -114,13 +114,17 @@ export default function Profile() {
             ]}
           >
             <Image
-              source={{ uri: user.avatar.url }}
-              style={[
-                styles.avatar,
-                { borderColor: bgColor },
-              ]}
-            />
-          </Pressable>
+          source={
+            user?.avatar?.url
+              ? { uri: user.avatar.url }
+              : defaultAvatar
+          }
+          style={[
+            styles.avatar,
+            { borderColor: bgColor },
+          ]}
+        />
+                  </Pressable>
 
           {isCurrentUser && (
             <EnergyBar maxEnergy={1000} />
@@ -151,17 +155,23 @@ export default function Profile() {
             </View>
           </View>
 
-          {showPesoAltura && (
-            <View style={styles.metrics}>
-              {user.peso != null && (
-                <Text style={styles.metric}>
-                  Peso: {user.peso} kg
-                </Text>
+          {(showPesoAltura || user.country) && (
+            <View style={styles.metricsWrapper}>
+              {/* Peso + Altura en horizontal */}
+              {showPesoAltura && (
+                <View style={styles.metrics}>
+                  {(user.peso ?? 0) > 0 && (
+                    <Text style={styles.metric}>Peso: {user.peso} kg</Text>
+                  )}
+                  {(user.altura ?? 0) > 0 && (
+                    <Text style={styles.metric}>Altura: {user.altura} m</Text>
+                  )}
+                </View>
               )}
-              {user.altura != null && (
-                <Text style={styles.metric}>
-                  Altura: {user.altura} m
-                </Text>
+
+              {/* Country debajo */}
+              {user.country && (
+                <Text style={styles.country}>{user.country}</Text>
               )}
             </View>
           )}
@@ -198,7 +208,7 @@ export default function Profile() {
 
             <ProgressBar
               level={user.stats?.mainAura || 0}
-              maxLevel={18000}
+              maxLevel={25000}
               label="Main AU"
             />
 
@@ -206,13 +216,13 @@ export default function Profile() {
               <View style={styles.subBars}>
                 <ProgressBar
                   level={user.stats?.staticAura || 0}
-                  maxLevel={9000}
+                  maxLevel={12500}
                   label="Static AU"
                   showPercent={false}
                 />
                 <ProgressBar
                   level={user.stats?.dynamicAura || 0}
-                  maxLevel={9000}
+                  maxLevel={12500}
                   label="Dynamic AU"
                   showPercent={false}
                 />
@@ -337,16 +347,29 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
 
+  /* ---------- MÉTRICAS ---------- */
+
+  metricsWrapper: {
+    marginTop: 4,
+  },
+
   metrics: {
     flexDirection: "row",
     gap: 8,
-    marginTop: 4,
   },
 
   metric: {
     fontSize: 11,
     color: "#e5e7eb",
   },
+
+  country: {
+    fontSize: 11,
+    color: "#9ca3af",
+    marginTop: 2,
+  },
+
+  /* ---------- UPGRADE ---------- */
 
   upgrade: {
     marginTop: 6,
@@ -362,6 +385,8 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: "600",
   },
+
+  /* ---------- AU ---------- */
 
   auSection: {
     marginTop: 12,
@@ -391,6 +416,8 @@ const styles = StyleSheet.create({
     marginTop: 6,
     gap: 4,
   },
+
+  /* ---------- TEAM ---------- */
 
   team: {
     marginTop: 12,

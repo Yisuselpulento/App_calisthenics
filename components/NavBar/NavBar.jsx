@@ -87,6 +87,6 @@ const styles = StyleSheet.create({
   },
 
   activeButton: {
-    backgroundColor: "#3B82F6",
+    backgroundColor: "#155dfc",
   },
 });

@@ -23,8 +23,8 @@ const BottomNavbar = () => {
   const isActive = (path) => pathname === path;
 
   const iconColor = (active, pressed) => {
-    if (pressed) return COLORS.primaryHover;
-    if (active) return COLORS.primary;
+    if (pressed) return "#155dfc";
+    if (active) return "#155dfc";
     return COLORS.textPrimary;
   };
 
@@ -105,7 +105,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
 
-    backgroundColor: COLORS.secondary,
+    backgroundColor: "#1C1917",
     borderTopWidth: 1,
     borderTopColor: COLORS.cancelButton,
 

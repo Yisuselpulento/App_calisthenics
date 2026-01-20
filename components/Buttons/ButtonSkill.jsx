@@ -6,6 +6,7 @@ export default function ButtonSkill({ skill, onPress }) {
     <Pressable
       onPress={onPress}
       style={[
+        styles.container,
         styles.button,
         getSkillBorderColor(skill.baseDifficulty),
       ]}
@@ -17,13 +18,17 @@ export default function ButtonSkill({ skill, onPress }) {
 
 const styles = StyleSheet.create({
   button: {
-    padding: 12,
+    padding: 20,
     borderRadius: 12,
-    backgroundColor: "#1F2937",
+    backgroundColor: "#1C1917",
     borderWidth: 1,
   },
   text: {
     color: "white",
     textAlign: "center",
   },
+  container: {
+  width: "48%",
+  marginBottom: 4,
+},
 });

@@ -13,12 +13,14 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
+import { Picker } from "@react-native-picker/picker";
 
 import { useAuth } from "../../../../context/AuthContext";
 import { updateProfileService } from "../../../../Services/ProfileFetching";
 import SubmitButton from "../../../../components/Buttons/SubmitButton";
 import { showToast } from "../../../../helpers/showToast";
 import VideoPlayer from "../../../../components/VideoPlayer";
+import countries from "../../../../helpers/countries";
 
 const MAX_VIDEO_SIZE_MB = 100;
 const MAX_VIDEO_SIZE_BYTES = MAX_VIDEO_SIZE_MB * 1024 * 1024;
@@ -111,7 +113,7 @@ export default function EditProfile() {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: "#1C1917" }}
+      style={{ flex: 1 }}
       behavior={Platform.OS === "ios" ? "padding" : undefined}
       keyboardVerticalOffset={Platform.OS === "ios" ? 80 : 0}
     >
@@ -186,13 +188,30 @@ export default function EditProfile() {
         </View>
 
         {/* COUNTRY */}
-        <TextInput
-          placeholder="País"
-          placeholderTextColor="#9CA3AF"
-          value={formData.country}
-          onChangeText={(v) => setFormData((p) => ({ ...p, country: v }))}
-          style={[styles.input, { marginTop: 12 }]}
-        />
+        <View style={styles.selectWrapper}>
+        <Text style={styles.label}>País</Text>
+
+        <View style={styles.pickerContainer}>
+          <Picker
+            selectedValue={formData.country}
+            onValueChange={(value) =>
+              setFormData((p) => ({ ...p, country: value }))
+            }
+            dropdownIconColor="#fff"
+            style={styles.picker}
+          >
+            <Picker.Item label="Selecciona tu país" value="" />
+
+            {countries.map((c) => (
+              <Picker.Item
+                key={c.code}
+                label={c.name}
+                value={c.name}
+              />
+            ))}
+          </Picker>
+        </View>
+      </View>
 
         {/* ADVANCED */}
         <Pressable
@@ -283,4 +302,17 @@ const styles = StyleSheet.create({
     color: "#60A5FA",
     fontSize: 14,
   },
+  selectWrapper: {
+  marginTop: 12,
+},
+
+pickerContainer: {
+  backgroundColor: "#374151",
+  borderRadius: 8,
+  overflow: "hidden",
+},
+
+picker: {
+  color: "#fff",
+},
 });

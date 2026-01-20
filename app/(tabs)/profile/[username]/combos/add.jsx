@@ -15,11 +15,11 @@ import Toast from "react-native-toast-message";
 
 import { useAuth } from "../../../../../context/AuthContext";
 import BackButton from "../../../../../components/Buttons/BackButton";
-import EnergyBar from "../../../../../components/Profile/EnergyBar";
 import SubmitButton from "../../../../../components/Buttons/SubmitButton";
 import VideoPlayer from "../../../../../components/VideoPlayer";
 import { createComboService } from "../../../../../Services/comboFetching";
 import { getUserVariants } from "../../../../../helpers/getUserVariants";
+import EnergyBarCombo from "../../../../../components/energyBarCombo";
 
 const MAX_VIDEO_MB = 100;
 
@@ -241,7 +241,7 @@ export default function AddCombo() {
           ))}
         </View>
 
-        <EnergyBar
+        <EnergyBarCombo
           elements={elements}
           userVariants={userVariants}
           userEnergy={userEnergy}

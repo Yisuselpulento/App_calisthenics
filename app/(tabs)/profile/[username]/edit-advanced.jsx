@@ -4,6 +4,7 @@ import {
   Text,
   TextInput,
   ScrollView,
+  StyleSheet,
 } from "react-native";
 import { useRouter } from "expo-router";
 
@@ -43,53 +44,78 @@ export default function EditAdvancedProfile() {
   };
 
   return (
-    <ScrollView contentContainerStyle={{ padding: 16 }}>
-      <Text style={{ fontSize: 20, fontWeight: "bold", marginBottom: 16 }}>
-        Edición avanzada
-      </Text>
+    <ScrollView contentContainerStyle={styles.container}>
+      <Text style={styles.title}>Edición avanzada</Text>
 
       <TextInput
         placeholder="Username"
+        placeholderTextColor="#9CA3AF"
         value={formData.username}
-        onChangeText={(v) => setFormData((p) => ({ ...p, username: v }))}
+        onChangeText={(v) =>
+          setFormData((p) => ({ ...p, username: v }))
+        }
         style={styles.input}
       />
 
       <TextInput
         placeholder="Email"
+        placeholderTextColor="#9CA3AF"
         value={formData.email}
-        onChangeText={(v) => setFormData((p) => ({ ...p, email: v }))}
+        onChangeText={(v) =>
+          setFormData((p) => ({ ...p, email: v }))
+        }
         style={styles.input}
       />
 
       <TextInput
         placeholder="Nueva contraseña"
+        placeholderTextColor="#9CA3AF"
         secureTextEntry
         value={formData.password}
-        onChangeText={(v) => setFormData((p) => ({ ...p, password: v }))}
+        onChangeText={(v) =>
+          setFormData((p) => ({ ...p, password: v }))
+        }
         style={styles.input}
       />
 
       <SelectCustom
         value={formData.profileType}
-        onChange={(v) => setFormData((p) => ({ ...p, profileType: v }))}
+        onChange={(v) =>
+          setFormData((p) => ({ ...p, profileType: v }))
+        }
         options={[
           { value: "static", label: "Static" },
           { value: "dynamic", label: "Dynamic" },
         ]}
       />
 
-      <SubmitButton loading={loading} text="Guardar cambios" onPress={handleSubmit} />
+      <SubmitButton
+        loading={loading}
+        text="Guardar cambios"
+        onPress={handleSubmit}
+      />
     </ScrollView>
   );
 }
 
-const styles = {
+const styles = StyleSheet.create({
+  container: {
+    padding: 16,
+  },
+
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 16,
+    color: "#FFFFFF", // TEXTO SIEMPRE BLANCO
+  },
+
   input: {
     padding: 12,
-    backgroundColor: "#1c1917",
+    backgroundColor: "#1C1917",
     borderRadius: 8,
-    color: "white",
+    color: "#FFFFFF", // TEXTO SIEMPRE BLANCO
     marginBottom: 12,
+    fontSize: 14,
   },
-};
+});

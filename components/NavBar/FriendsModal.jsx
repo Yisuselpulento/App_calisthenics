@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modal: {
-    backgroundColor: "#111827",
+    backgroundColor: "#0c0a09",
     width: "90%",
     borderRadius: 12,
     padding: 16,
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#374151",
   },
   tabActive: {
-    backgroundColor: "#22C55E",
+    backgroundColor: "#155dfc",
   },
   tabText: {
     color: "#fff",
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     gap: 10,
     padding: 10,
-    backgroundColor: "#1F2933",
+    backgroundColor: "#1C1917",
     borderRadius: 8,
     marginBottom: 8,
   },

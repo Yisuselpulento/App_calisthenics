@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
-// Reemplaza los servicios según tu App
+import { useAuth } from "../../context/AuthContext";
+
 import { markNotificationAsReadService } from "../../Services/notificationFetching";
 import { respondChallengeService } from "../../Services/challengeFetching";
 
 const CardNotification = ({ notification, closeDropdown }) => {
+  const { currentUser, updateCurrentUser } = useAuth();
+
   const [loading, setLoading] = useState(false);
-  const [actionLoading, setActionLoading] = useState(null); // "accept" | "reject" | null
+  const [actionLoading, setActionLoading] = useState(null);
 
   const handleMarkRead = async () => {
+    if (loading) return;
     setLoading(true);
+
     const res = await markNotificationAsReadService(notification._id);
-    if (!res.success) console.warn(res.message);
+
+    if (res?.success && res.user) {
+      updateCurrentUser(res.user); // 🔥 CLAVE
+    }
+
     setLoading(false);
   };
 
@@ -24,14 +33,11 @@ const CardNotification = ({ notification, closeDropdown }) => {
       accepted,
     });
 
-    if (!res.success) {
-      console.warn(res.message);
-      setActionLoading(null);
-      return;
+    if (res?.success && res.user) {
+      updateCurrentUser(res.user); // 🔥 CLAVE
+      closeDropdown();
     }
 
-    console.log(res.message);
-    closeDropdown();
     setActionLoading(null);
   };
 
@@ -53,45 +59,35 @@ const CardNotification = ({ notification, closeDropdown }) => {
         </View>
 
         {!notification.read && !isChallenge && (
-          <Pressable
-            onPress={handleMarkRead}
-            disabled={loading}
-            style={{ padding: 4 }}
-          >
-            <Text style={styles.markReadText}>{loading ? "..." : "Marcar"}</Text>
+          <Pressable onPress={handleMarkRead} disabled={loading}>
+            <Text style={styles.markRead}>
+              {loading ? "..." : "Marcar"}
+            </Text>
           </Pressable>
         )}
       </View>
 
       {isChallenge && !notification.read && (
-        <View style={{ marginTop: 8 }}>
-          <View style={{ flexDirection: "row", gap: 8 }}>
-            <Pressable
-              onPress={() => handleChallengeResponse(true)}
-              disabled={actionLoading !== null}
-              style={[styles.challengeButton, styles.acceptButton]}
-            >
-              <Text style={styles.challengeButtonText}>
-                {actionLoading === "accept" ? "Aceptando..." : "Aceptar"}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              onPress={() => handleChallengeResponse(false)}
-              disabled={actionLoading !== null}
-              style={[styles.challengeButton, styles.rejectButton]}
-            >
-              <Text style={styles.challengeButtonText}>
-                {actionLoading === "reject" ? "Rechazando..." : "Rechazar"}
-              </Text>
-            </Pressable>
-          </View>
-
-          {actionLoading && (
-            <Text style={{ color: "#FACC15", fontSize: 12, marginTop: 4 }}>
-              Procesando respuesta...
+        <View style={styles.actions}>
+          <Pressable
+            style={[styles.actionBtn, styles.accept]}
+            disabled={actionLoading !== null}
+            onPress={() => handleChallengeResponse(true)}
+          >
+            <Text style={styles.actionText}>
+              {actionLoading === "accept" ? "Aceptando..." : "Aceptar"}
             </Text>
-          )}
+          </Pressable>
+
+          <Pressable
+            style={[styles.actionBtn, styles.reject]}
+            disabled={actionLoading !== null}
+            onPress={() => handleChallengeResponse(false)}
+          >
+            <Text style={styles.actionText}>
+              {actionLoading === "reject" ? "Rechazando..." : "Rechazar"}
+            </Text>
+          </Pressable>
         </View>
       )}
     </View>
@@ -107,10 +103,10 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   read: {
-    backgroundColor: "#1F2937",
+    backgroundColor: "#292524",
   },
   unread: {
-    backgroundColor: "#374151",
+    backgroundColor: "#57534d",
   },
   row: {
     flexDirection: "row",
@@ -125,23 +121,28 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginTop: 2,
   },
-  markReadText: {
+  markRead: {
     color: "#3B82F6",
     fontSize: 12,
   },
-  challengeButton: {
+  actions: {
+    flexDirection: "row",
+    gap: 8,
+    marginTop: 8,
+  },
+  actionBtn: {
     flex: 1,
     paddingVertical: 6,
     borderRadius: 6,
     alignItems: "center",
   },
-  acceptButton: {
+  accept: {
     backgroundColor: "#16A34A",
   },
-  rejectButton: {
+  reject: {
     backgroundColor: "#DC2626",
   },
-  challengeButtonText: {
+  actionText: {
     color: "#fff",
     fontSize: 12,
   },

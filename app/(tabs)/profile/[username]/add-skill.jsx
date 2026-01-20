@@ -272,7 +272,7 @@ const styles = StyleSheet.create({
   grid: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
+    gap: 4,
   },
   variant: {
     padding: 12,

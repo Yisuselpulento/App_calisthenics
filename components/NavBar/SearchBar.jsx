@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     zIndex: 999,
   },
   input: {
-    backgroundColor: "rgba(255,255,255,0.1)",
+    backgroundColor: "#1C1917",
     color: "#fff",
     fontSize: 14,
     paddingVertical: 6,

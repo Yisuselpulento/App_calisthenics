@@ -74,7 +74,7 @@ export default function UserSkillCard({ skill, ownerUsername }) {
         }
         style={[
           styles.card,
-          styles[getVariantBgColor(difficulty)],
+          getVariantBgColor(difficulty),
         ]}
       >
         <Text style={styles.name}>

@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderWidth: 3,
   },
   default: {
-    backgroundColor: "#111827", // gray-900
+    backgroundColor: "#1C1917", // gray-900
     borderColor: "#404040", // neutral-700
     borderWidth: 1,
   },

@@ -1,15 +1,18 @@
 import { Redirect } from "expo-router";
 import { useAuth } from "../context/AuthContext";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Index() {
   const { currentUser, loading } = useAuth();
 
   if (loading) {
     return (
-      <View className="flex-1 justify-center items-center bg-black">
-        <ActivityIndicator size="large" />
-      </View>
+      <SafeAreaView style={styles.safe}>
+        <View style={styles.container}>
+          <ActivityIndicator size="large" color="#1D4ED8" />
+        </View>
+      </SafeAreaView>
     );
   }
 
@@ -19,3 +22,15 @@ export default function Index() {
 
   return <Redirect href="/(tabs)" />;
 }
+
+const styles = StyleSheet.create({
+  safe: {
+    flex: 1,
+    backgroundColor: "#0c0a09",
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});

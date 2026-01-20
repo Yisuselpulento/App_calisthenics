@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
   tab: {
     paddingVertical: 8,
     paddingHorizontal: 16,
-    backgroundColor: "#1F2937",
+    backgroundColor: "#1C1917",
     color: "#9CA3AF",
     borderRadius: 8,
   },
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   search: {
-    backgroundColor: "#1F2937",
+    backgroundColor: "#1C1917",
     color: "white",
     borderRadius: 8,
     padding: 10,

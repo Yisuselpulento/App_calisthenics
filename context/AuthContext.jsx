@@ -9,6 +9,8 @@ import {
 
 import { getProfileByUsernameService } from "../Services/ProfileFetching";
 import { toggleFollowService } from "../Services/followFetching";
+import { registerForPushNotificationsAsync } from "../helpers/pushNotifications";
+import { savePushTokenService } from "../Services/userFetching";
 
 const AuthContext = createContext();
 
@@ -63,6 +65,25 @@ export const AuthProvider = ({ children }) => {
 
     restoreSession();
   }, []);
+
+  /* ------------------ PUSH NOTIFICATIONS ------------------ */
+useEffect(() => {
+  if (!currentUser) return;
+
+  const registerPush = async () => {
+    try {
+      const token = await registerForPushNotificationsAsync();
+
+      if (token) {
+        await savePushTokenService(token);
+      }
+    } catch (err) {
+      console.log("Error registrando push token", err);
+    }
+  };
+
+  registerPush();
+}, [currentUser]);
 
   /* ------------------ LOAD PROFILE ------------------ */
   const loadProfile = async (username) => {

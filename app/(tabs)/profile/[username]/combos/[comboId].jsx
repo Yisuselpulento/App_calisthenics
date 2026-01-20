@@ -85,8 +85,14 @@ export default function ComboDetails() {
       </View>
 
       <View style={styles.card}>
-        <Text><Text style={styles.bold}>Tipo:</Text> {combo.type}</Text>
-        <Text><Text style={styles.bold}>Energía total:</Text> {combo.totalEnergyCost}</Text>
+        <Text style={styles.text}>
+          <Text style={styles.bold}>Tipo:</Text> {combo.type}
+        </Text>
+
+        <Text style={styles.text}>
+          <Text style={styles.bold}>Energía total:</Text> {combo.totalEnergyCost}
+        </Text>
+
         <Text style={styles.date}>
           Creado: {new Date(combo.createdAt).toLocaleDateString()}
         </Text>
@@ -108,14 +114,30 @@ export default function ComboDetails() {
 
           <View style={styles.row}>
             <View>
-              {el.hold > 0 && <Text>⏱ Hold: {el.hold}s</Text>}
-              {el.reps > 0 && <Text>🔁 Reps: {el.reps}</Text>}
-              <Text>🤘 Fingers: {el.fingers}</Text>
+              {el.hold > 0 && (
+                <Text style={styles.infoText}>
+                  ⏱ Hold: {el.hold}s
+                </Text>
+              )}
+
+              {el.reps > 0 && (
+                <Text style={styles.infoText}>
+                  🔁 Reps: {el.reps}
+                </Text>
+              )}
+
+              <Text style={styles.infoText}>
+                🤘 Fingers: {el.fingers}
+              </Text>
             </View>
 
             <View>
-              <Text>🌀 Static AU: {el.staticAu}</Text>
-              <Text>🔥 Dynamic AU: {el.dynamicAu}</Text>
+              <Text style={styles.infoText}>
+                🌀 Static AU: {el.staticAu}
+              </Text>
+              <Text style={styles.infoText}>
+                🔥 Dynamic AU: {el.dynamicAu}
+              </Text>
             </View>
           </View>
         </View>
@@ -136,6 +158,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 10,
+    
   },
   center: {
     marginTop: 40,
@@ -147,6 +170,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: 10,
+    
   },
   titleRow: {
     flexDirection: "row",
@@ -163,9 +187,12 @@ const styles = StyleSheet.create({
     padding: 14,
     borderRadius: 16,
     marginBottom: 12,
+    
+    
   },
   bold: {
     fontWeight: "700",
+    color: "#DED8D7",
   },
   date: {
     marginTop: 6,
@@ -179,7 +206,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   element: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "rs",
     padding: 14,
     borderRadius: 16,
     marginBottom: 12,
@@ -194,4 +221,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginTop: 6,
   },
+  text: {
+    color: "#DED8D7",
+  },
+  infoText: {
+  color: "#FFFFFF",
+  fontSize: 14,
+},
 });

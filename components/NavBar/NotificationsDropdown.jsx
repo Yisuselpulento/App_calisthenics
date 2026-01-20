@@ -33,7 +33,7 @@ const NotificationsDropdown = ({ closeDropdown }) => {
           ))}
         </ScrollView>
       )}
-
+  
       <Pressable onPress={handleGoToAll} style={{ marginTop: 8 }}>
         <Text style={styles.viewAll}>Ver todas</Text>
       </Pressable>
