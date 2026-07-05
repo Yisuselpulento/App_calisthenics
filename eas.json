@@ -22,7 +22,6 @@
       },
       "autoIncrement": true,
       "env": {},
-      "releaseChannel": "production",
       "channel": "production"
     }
   },
