@@ -30,6 +30,7 @@ export default {
     },
 
     plugins: [
+      "./plugins/withDisableForcedDark",
       "expo-router",
       "expo-secure-store",
       [
