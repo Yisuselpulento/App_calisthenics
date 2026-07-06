@@ -230,7 +230,7 @@ export default function AddSkill() {
               <SubmitButton
                 loading={loadingSubmit}
                 text="Agregar Skill"
-                onClick={handleAddSkill}
+                onPress={handleAddSkill}
               />
             </View>
           )}

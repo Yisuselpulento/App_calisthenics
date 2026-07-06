@@ -30,4 +30,4 @@ export const getReportByIdService = async (reportId) =>
 
 /* -------------------------- UPDATE REPORT STATUS (ADMIN) -------------------------- */
 export const updateReportStatusService = async (reportId, updateData) =>
-  handleRequest(axiosInstance.put(`/reports/${reportId}`, updateData));
+  handleRequest(axiosInstance.put(`/api/reports/${reportId}`, updateData));

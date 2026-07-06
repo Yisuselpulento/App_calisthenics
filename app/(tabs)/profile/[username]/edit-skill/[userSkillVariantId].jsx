@@ -184,7 +184,7 @@ export default function EditSkill() {
         <SubmitButton
           loading={submitting}
           text="Guardar cambios"
-          onClick={handleSubmit}
+          onPress={handleSubmit}
         />
       </View>
     </ScrollView>
@@ -216,11 +216,11 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   card: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "#292524",
     padding: 16,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.2)",
+    borderColor: "#44403C",
     gap: 16,
   },
   field: {
@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 10,
     borderRadius: 8,
-    backgroundColor: "rgba(255,255,255,0.15)",
+    backgroundColor: "#44403C",
     alignItems: "center",
   },
   fingerActive: {

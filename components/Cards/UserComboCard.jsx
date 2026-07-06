@@ -54,11 +54,11 @@ export default function UserComboCard({
 const styles = StyleSheet.create({
   card: {
     flex: 1,
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "#292524",
     borderRadius: 16,
     padding: 12,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.15)",
+    borderColor: "#44403C",
   },
 
   name: {

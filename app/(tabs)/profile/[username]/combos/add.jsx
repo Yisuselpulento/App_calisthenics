@@ -301,7 +301,7 @@ export default function AddCombo() {
         <SubmitButton
           loading={loading}
           text="Crear Combo"
-          onClick={handleSubmit}
+          onPress={handleSubmit}
         />
       </View>
     </ScrollView>
@@ -324,14 +324,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   card: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "#292524",
     borderRadius: 12,
     padding: 16,
     gap: 12,
   },
   label: { color: "white" },
   input: {
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "#1C1917",
     padding: 10,
     borderRadius: 8,
     color: "white",
@@ -343,7 +343,7 @@ const styles = StyleSheet.create({
   typeButton: {
     flex: 1,
     padding: 10,
-    backgroundColor: "rgba(255,255,255,0.15)",
+    backgroundColor: "#44403C",
     borderRadius: 8,
     alignItems: "center",
   },
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   variant: {
     padding: 8,
     borderRadius: 8,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "#1C1917",
   },
   variantActive: {
     backgroundColor: "#2563EB",
@@ -376,7 +376,7 @@ const styles = StyleSheet.create({
   small: { color: "white", fontSize: 12 },
   smallInput: {
     width: 70,
-    backgroundColor: "rgba(0,0,0,0.4)",
+    backgroundColor: "#1C1917",
     padding: 6,
     borderRadius: 6,
     color: "white",

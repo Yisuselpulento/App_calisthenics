@@ -13,18 +13,18 @@ export const getVariantBgColor = (difficulty) => {
 
 const styles = StyleSheet.create({
   elite: {
-    backgroundColor: "rgba(147, 51, 234, 0.5)", // purple-600 / 50%
-    borderColor: "#A855F7", // purple-500
+    backgroundColor: "#6B21A8",
+    borderColor: "#A855F7",
     borderWidth: 1,
   },
   legendary: {
-    backgroundColor: "rgba(253, 224, 71, 0.7)", // yellow-300 / 70%
-    borderColor: "#FACC15", // yellow-300
+    backgroundColor: "#713F12",
+    borderColor: "#EAB308",
     borderWidth: 3,
   },
   default: {
-    backgroundColor: "#1C1917", // gray-900
-    borderColor: "#404040", // neutral-700
+    backgroundColor: "#1C1917",
+    borderColor: "#404040",
     borderWidth: 1,
   },
 });

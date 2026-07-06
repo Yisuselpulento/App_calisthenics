@@ -126,9 +126,9 @@ export default function SkillCard({ skill, view = "card", ownerUsername }) {
 const styles = StyleSheet.create({
   cardBase: {
     position: "relative",
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "#292524",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
+    borderColor: "#44403C",
     borderRadius: 16,
   },
 
@@ -196,17 +196,17 @@ const styles = StyleSheet.create({
   },
 
   staticBg: {
-    backgroundColor: "rgba(59,130,246,0.4)",
+    backgroundColor: "#1D4ED8",
     color: "#93c5fd",
   },
 
   dynamicBg: {
-    backgroundColor: "rgba(34,197,94,0.4)",
+    backgroundColor: "#15803D",
     color: "#86efac",
   },
 
   otherBg: {
-    backgroundColor: "rgba(234,179,8,0.4)",
+    backgroundColor: "#A16207",
     color: "#fde047",
   },
 

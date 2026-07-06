@@ -60,7 +60,7 @@ export default function ComboDetails() {
     setShowDeleteModal(false);
     setDeleting(false);
 
-    router.replace(`/(profile)/${currentUser.username}/combos`);
+    router.replace(`/profile/${currentUser.username}/combos`);
   };
 
   return (
@@ -79,7 +79,7 @@ export default function ComboDetails() {
         {isOwner && (
           <EditAndDeleteButton
             onDeleteClick={() => setShowDeleteModal(true)}
-            editLink={`/(profile)/${currentUser.username}/combos/${combo._id}/edit`}
+            editLink={`/profile/${currentUser.username}/combos/${combo._id}/edit`}
           />
         )}
       </View>
@@ -183,7 +183,7 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   card: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "#292524",
     padding: 14,
     borderRadius: 16,
     marginBottom: 12,
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   element: {
-    backgroundColor: "rs",
+    backgroundColor: "#1f2937",
     padding: 14,
     borderRadius: 16,
     marginBottom: 12,

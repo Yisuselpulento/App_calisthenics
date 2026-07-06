@@ -36,9 +36,9 @@ export default function ComboCard({ combo }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "rgba(255,255,255,0.05)",
+    backgroundColor: "#292524",
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.1)",
+    borderColor: "#44403C",
     borderRadius: 16,
     padding: 14,
 
@@ -66,15 +66,15 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
   },
   static: {
-    backgroundColor: "rgba(59,130,246,0.4)",
+    backgroundColor: "#1D4ED8",
     color: "#93c5fd",
   },
   dynamic: {
-    backgroundColor: "rgba(34,197,94,0.4)",
+    backgroundColor: "#15803D",
     color: "#86efac",
   },
   other: {
-    backgroundColor: "rgba(234,179,8,0.4)",
+    backgroundColor: "#A16207",
     color: "#fde047",
   },
   info: {

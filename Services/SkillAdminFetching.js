@@ -28,7 +28,7 @@ export const getSkillByKeyAdminService = async (skillKey) =>
 export const updateSkillAdminService = async (skillKey, skillData) =>
   handleRequest(axiosInstance.put(`/api/skills/${skillKey}`, skillData));
 
-export const deleteSkilldminService = async (skillKey) =>
+export const deleteSkillAdminService = async (skillKey) =>
   handleRequest(axiosInstance.delete(`/api/skills/${skillKey}`));
 
 /* ------------------ ADD VARIANTE A USUARIO ------------------ */

@@ -79,11 +79,11 @@ export default function HistorialCard({ match, type }) {
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "#292524",
     borderRadius: 16,
     padding: 14,
     borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.15)",
+    borderColor: "#44403C",
   },
   header: {
     flexDirection: "row",
@@ -115,19 +115,19 @@ const styles = StyleSheet.create({
     fontWeight: "700",
   },
   win: {
-    backgroundColor: "rgba(34,197,94,0.25)",
+    backgroundColor: "#166534",
   },
   winText: {
     color: "#4ade80",
   },
   loss: {
-    backgroundColor: "rgba(239,68,68,0.25)",
+    backgroundColor: "#991B1B",
   },
   lossText: {
     color: "#f87171",
   },
   draw: {
-    backgroundColor: "rgba(107,114,128,0.25)",
+    backgroundColor: "#525252",
   },
   drawText: {
     color: "#d1d5db",
