@@ -1,6 +1,7 @@
 import { View, StyleSheet } from "react-native";
 import { Slot, usePathname } from "expo-router";
-import { Video } from "expo-av";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { useEffect } from "react";
 import {
   SafeAreaView,
   useSafeAreaInsets,
@@ -18,21 +19,35 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
 
   const isProfilePage = pathname?.startsWith("/profile/");
-  const showVideo = isProfilePage && viewedProfile?.videoProfile?.url;
+  const videoUri = isProfilePage
+    ? viewedProfile?.videoProfile?.url ?? null
+    : null;
+
+  const player = useVideoPlayer(null, (p) => {
+    p.loop = true;
+    p.muted = true;
+  });
+
+  useEffect(() => {
+    if (!player) return;
+    if (videoUri) {
+      player.replace(videoUri);
+      player.play();
+    } else {
+      player.pause();
+    }
+  }, [player, videoUri]);
 
   return (
     <View style={styles.container}>
       {/* 🎥 Video de fondo */}
-      {showVideo && (
+      {videoUri && (
         <View style={StyleSheet.absoluteFill}>
-          
-          <Video
-            source={{ uri: viewedProfile.videoProfile.url }}
+          <VideoView
             style={StyleSheet.absoluteFill}
-            resizeMode="cover"
-            isLooping
-            shouldPlay
-            isMuted
+            player={player}
+            contentFit="cover"
+            nativeControls={false}
           />
           <View style={styles.overlay} />
         </View>

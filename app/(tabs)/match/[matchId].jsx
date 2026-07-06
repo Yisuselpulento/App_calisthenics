@@ -1,7 +1,7 @@
 import { View, Text, Image, StyleSheet, ScrollView } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { Video } from "expo-av";
+import { useVideoPlayer, VideoView } from "expo-video";
 
 import ComboStepByStep from "../../../components/ComboStepByStep";
 import { getMatchById } from "../../../Services/matchFetching";
@@ -68,6 +68,13 @@ export default function Match() {
 
 function PlayerCard({ data }) {
   const combo = data?.combo || {};
+  const videoUrl = combo?.video?.url ?? null;
+
+  const player = useVideoPlayer(videoUrl, (p) => {
+    p.loop = true;
+    p.muted = true;
+    p.play();
+  });
 
   return (
     <View style={styles.playerCard}>
@@ -82,14 +89,12 @@ function PlayerCard({ data }) {
         {data?.user?.username || "Jugador"}
       </Text>
 
-      {combo?.video?.url ? (
-        <Video
-          source={{ uri: combo.video.url }}
+      {videoUrl ? (
+        <VideoView
           style={styles.video}
-          resizeMode="cover"
-          isLooping
-          shouldPlay
-          isMuted
+          player={player}
+          contentFit="cover"
+          nativeControls={false}
         />
       ) : (
         <Text style={styles.noCombo}>No hay combo disponible</Text>

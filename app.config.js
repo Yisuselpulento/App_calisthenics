@@ -33,6 +33,7 @@ export default {
       "./plugins/withDisableForcedDark",
       "expo-router",
       "expo-secure-store",
+      "expo-video",
       [
         "expo-notifications",
         {
