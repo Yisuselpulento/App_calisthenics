@@ -6,7 +6,7 @@ export default function ConfirmUnfollowModal({
   onConfirm,
 }) {
   return (
-    <Modal transparent visible={visible} animationType="fade">
+    <Modal transparent visible={visible} animationType="fade" statusBarTranslucent navigationBarTranslucent>
       <View style={styles.overlay}>
         <View style={styles.modal}>
           <Text style={styles.title}>¿Dejar de seguir?</Text>

@@ -35,6 +35,8 @@ const ButtonLogout = () => {
         visible={isOpen}
         transparent
         animationType="fade"
+        statusBarTranslucent
+        navigationBarTranslucent
         onRequestClose={() => setIsOpen(false)}
       >
         <View style={styles.modalOverlay}>

@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 import { useAuth } from "../../../../context/AuthContext";
 import { getLevelColor } from "../../../../helpers/getLevelColor";
+import { getContrastText } from "../../../../helpers/getContrastText";
 import { createReportService } from "../../../../Services/reportsFetching";
 import ButtonConfigProfile from "../../../../components/Buttons/ButtonConfigProfile";
 import EnergyBar from "../../../../components/Profile/EnergyBar";
@@ -149,7 +150,7 @@ const borderColor = bgColor + "CC";
                 },
               ]}
             >
-              <Text style={styles.profileTypeText}>
+              <Text style={[styles.profileTypeText, { color: getContrastText(bgColor) }]}>
                 {user.profileType}
               </Text>
             </View>

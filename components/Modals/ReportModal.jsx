@@ -21,7 +21,7 @@ export default function ReportModal({
   }, [isOpen]);
 
   return (
-    <Modal transparent visible={isOpen} animationType="fade">
+    <Modal transparent visible={isOpen} animationType="fade" statusBarTranslucent navigationBarTranslucent>
       <View style={styles.overlay}>
         <Pressable style={styles.backdrop} onPress={onClose} />
 

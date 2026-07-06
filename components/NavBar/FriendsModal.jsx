@@ -22,7 +22,7 @@ const FriendsModal = ({ visible, onClose, user }) => {
   const list = activeTab === "friends" ? following : followers;
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal visible={visible} transparent animationType="fade" statusBarTranslucent navigationBarTranslucent>
       <View style={styles.overlay}>
         <View style={styles.modal}>
           {/* Tabs */}

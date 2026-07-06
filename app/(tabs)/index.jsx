@@ -5,9 +5,13 @@ import { getFeedEventsService } from "../../Services/feedFetching";
 import PostCard from "../../components/Cards/PostCard";
 import Spinner from "../../components/Spinner/Spinner";
 
+// Caché en memoria: sobrevive a la navegación entre tabs mientras la app vive
+let feedCache = null;
+
 export default function Home() {
-  const [feed, setFeed] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [feed, setFeed] = useState(feedCache || []);
+  // Solo mostramos spinner la primera vez (sin caché). Si ya hay datos, se ven al instante.
+  const [loading, setLoading] = useState(!feedCache);
   const [activeVideoId, setActiveVideoId] = useState(null);
 
   useEffect(() => {
@@ -15,12 +19,14 @@ export default function Home() {
       const res = await getFeedEventsService();
 
       if (res?.success) {
-        setFeed(res.data || []);
+        feedCache = res.data || [];
+        setFeed(feedCache);
       }
 
       setLoading(false);
     };
 
+    // Refresca siempre en segundo plano (stale-while-revalidate)
     loadFeed();
   }, []);
 

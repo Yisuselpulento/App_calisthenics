@@ -2,7 +2,7 @@ import { Modal, View, Image, Pressable, StyleSheet } from "react-native";
 
 export default function ImageLightbox({ src, isOpen, onClose }) {
   return (
-    <Modal visible={isOpen} transparent animationType="fade">
+    <Modal visible={isOpen} transparent animationType="fade" statusBarTranslucent navigationBarTranslucent>
       <Pressable style={styles.overlay} onPress={onClose}>
         <Image source={{ uri: src }} style={styles.image} resizeMode="contain" />
       </Pressable>

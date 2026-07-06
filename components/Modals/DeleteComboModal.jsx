@@ -8,7 +8,7 @@ export default function DeleteComboModal({
   loading,
 }) {
   return (
-    <Modal visible={isOpen} transparent animationType="fade">
+    <Modal visible={isOpen} transparent animationType="fade" statusBarTranslucent navigationBarTranslucent>
       <View style={styles.overlay}>
         <Pressable style={styles.backdrop} onPress={onCancel} />
 

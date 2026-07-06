@@ -10,6 +10,9 @@ import { useAuth } from "../../../../context/AuthContext";
 import HistorialCard from "../../../../components/Cards/HistorialCard";
 import { getUserRankedHistory, getUserCasualHistory } from "../../../../Services/matchFetching";
 
+// Caché en memoria por tab+usuario (sobrevive a la navegación)
+const historyCache = {};
+
 export default function ProfileHistorial() {
   const [tab, setTab] = useState("ranked");
   const [matches, setMatches] = useState([]);
@@ -18,19 +21,30 @@ export default function ProfileHistorial() {
   const { viewedProfile } = useAuth();
 
   const fetchHistory = async (type, userId) => {
-    setLoading(true);
+    const key = `${type}_${userId}`;
+    const cached = historyCache[key];
 
+    // Si ya hay datos cacheados, se muestran al instante (sin spinner)
+    if (cached) {
+      setMatches(cached);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
+
+    // Refresca en segundo plano igualmente
     const res =
       type === "ranked"
         ? await getUserRankedHistory(userId)
         : await getUserCasualHistory(userId);
 
     if (!res?.success) {
-      setMatches([]);
+      if (!cached) setMatches([]);
       setLoading(false);
       return;
     }
 
+    historyCache[key] = res.matches;
     setMatches(res.matches);
     setLoading(false);
   };
