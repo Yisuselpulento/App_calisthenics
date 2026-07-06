@@ -31,6 +31,7 @@ export default {
 
     plugins: [
       "./plugins/withDisableForcedDark",
+      "./plugins/withDarkNavigationBar",
       "expo-router",
       "expo-secure-store",
       "expo-video",
