@@ -29,6 +29,11 @@ export default {
       },
     },
 
+    ios: {
+      bundleIdentifier: "com.monssterdc.calisteniaapp",
+      supportsTablet: true,
+    },
+
     plugins: [
       "./plugins/withDisableForcedDark",
       "./plugins/withDarkNavigationBar",
